@@ -121,7 +121,7 @@
           </button>
         </div>
 
-        <!-- MTRICAS DIÁRIAS -->
+        <!-- MÉTRICAS DIÁRIAS -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div class="bg-white p-5 rounded-2xl border shadow-sm flex items-center justify-between border-l-4 border-l-emerald-500">
             <div>
@@ -504,32 +504,19 @@
 
   <!-- LÓGICA DO SISTEMA COM SUPORTE ROBUSTO DE DADOS -->
   <script>
-    // ESTADO DA APLICAÇÃO
-    let currentUser = null;
-    let productsList = [];
-    let customersList = [];
-    let salesList = [];
-    let receivablesList = [];
-    let payablesList = [];
-    let financialList = [];
+    // --- ESTADO DA APLICAÇÃO (CARREGAMENTO SÍNCRONO E IMEDIATO) ---
+    let currentUser = JSON.parse(localStorage.getItem('gp_user')) || null;
+    let productsList = JSON.parse(localStorage.getItem('gp_products')) || [];
+    let customersList = JSON.parse(localStorage.getItem('gp_customers')) || [];
+    let salesList = JSON.parse(localStorage.getItem('gp_sales')) || [];
+    let receivablesList = JSON.parse(localStorage.getItem('gp_receivables')) || [];
+    let payablesList = JSON.parse(localStorage.getItem('gp_payables')) || [];
+    let financialList = JSON.parse(localStorage.getItem('gp_financial')) || [];
+
     let cart = [];
     let chartInstance = null;
 
-    // --- FUNÇÕES DE ARMAZENAMENTO LOCAL ROBUSTO (LOCALSTORAGE) ---
-    function loadFromStorage() {
-      try {
-        currentUser = JSON.parse(localStorage.getItem('gp_user')) || null;
-        productsList = JSON.parse(localStorage.getItem('gp_products')) || [];
-        customersList = JSON.parse(localStorage.getItem('gp_customers')) || [];
-        salesList = JSON.parse(localStorage.getItem('gp_sales')) || [];
-        receivablesList = JSON.parse(localStorage.getItem('gp_receivables')) || [];
-        payablesList = JSON.parse(localStorage.getItem('gp_payables')) || [];
-        financialList = JSON.parse(localStorage.getItem('gp_financial')) || [];
-      } catch (e) {
-        console.error("Erro ao carregar do localStorage:", e);
-      }
-    }
-
+    // --- FUNÇÕES DE ARMAZENAMENTO LOCAL ROBUSTO ---
     function saveStorage(key, data) {
       try {
         localStorage.setItem(key, JSON.stringify(data));
@@ -541,7 +528,6 @@
 
     // --- INICIALIZAÇÃO E AUTENTICAÇÃO ---
     window.addEventListener('DOMContentLoaded', () => {
-      loadFromStorage();
       checkAuthStatus();
     });
 
